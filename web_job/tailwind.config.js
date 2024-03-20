@@ -5,11 +5,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
-    colors:{
-      'slate': '#94a3b8',
-    }
+    extend: {
+      fontFamily:{
+        michroma: ['Michroma', 'sans-serif'],
+        germania:['Germania One','sans-serif']
+      },
+      colors:{
+        'slate': '#94a3b8',
+      }
+    },
+  
   },
   plugins: [],
 }
+
 

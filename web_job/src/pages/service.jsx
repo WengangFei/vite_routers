@@ -3,7 +3,7 @@
 function Service() {
   return (
     <div>
-      
+      service page
     </div>
   )
 }
