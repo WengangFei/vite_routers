@@ -1,4 +1,5 @@
-export const careers = [
+{
+  "careers": [
     {
       "id": 1,
       "title": "Senior React Developer",
@@ -42,3 +43,4 @@ export const careers = [
       "location": "London, UK"
     }
   ]
+}

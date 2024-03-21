@@ -5,7 +5,7 @@ function Home() {
   return (
     <>
      
-      <div className='p-10 font-michroma'>
+      <div>
         <h2 className='text-4xl font-bold my-6'>Welcome</h2>
         <div className='text-xl leading-lg'>
           <p>
