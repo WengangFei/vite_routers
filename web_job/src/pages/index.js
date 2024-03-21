@@ -3,11 +3,11 @@ import About from './about';
 import Service from './service';
 import SignIn from './signIn.jsx';
 import SignUp from './signUp.jsx';
-import LayOut from './layOut.jsx';
-import NewJobs from './newJob.jsx';
+import NewJobs from './newJobs/newJob.jsx';
 import Help from './help/helpLayout.jsx';
 import Contacts from './help/contact.jsx';
 import Questions from './help/questions.jsx';
+import JobLayOut from './newJobs/jobLayout.jsx';
 
 export {
     Home,
@@ -15,9 +15,9 @@ export {
     Service,
     SignIn,
     SignUp,
-    LayOut,
     NewJobs,
     Help,
     Contacts,
-    Questions
+    Questions,
+    JobLayOut,
 }

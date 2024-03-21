@@ -5,7 +5,8 @@ import { createBrowserRouter,
          
          }
         from 'react-router-dom';
-import { LayOut,
+import {
+        JobLayOut,
         Home,
         Service,
         SignIn,
@@ -17,7 +18,10 @@ import { LayOut,
         Contacts
       } from './pages';
 import Error from './pages/error';
-import { jobLoader } from './pages/newJob';
+import { jobLoader } from './pages/newJobs/newJob';
+import LayOut from './pages/layOut';
+
+
 
 
 
@@ -31,14 +35,24 @@ createRoutesFromElements(
     <Route path='about' element={ <About />} />
     <Route path='signIn' element={ <SignIn />} />
     <Route path='signUp' element={ <SignUp />} />
-    <Route path='new_jobs' 
-          element={ <NewJobs />}
-          loader={ jobLoader }
-    />
+
+  
+    <Route path='new_jobs' element={ <JobLayOut />}>
+      <Route 
+            index
+            element={ <NewJobs />}
+            loader={ jobLoader }
+      />
+          
+    </Route>
+    
+
     <Route path='help' element={ <Help />} >
       <Route path='questions' element={ <Questions />}/>
       <Route path='contacts' element={ <Contacts /> }/>
     </Route>
+
+
 
     <Route path='*' element={ <Error /> }/>
   </Route>
