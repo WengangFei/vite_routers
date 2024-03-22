@@ -20,6 +20,9 @@ import {
 import Error from './pages/error';
 import { jobLoader } from './pages/newJobs/newJob';
 import LayOut from './pages/layOut';
+import JobDetails, { jobDetailsLoader } from './pages/newJobs/jobDetails';
+import JobError from './pages/newJobs/jobError';
+import CurrentJobError from './pages/newJobs/currentJobError';
 
 
 
@@ -42,6 +45,13 @@ createRoutesFromElements(
             index
             element={ <NewJobs />}
             loader={ jobLoader }
+            errorElement={<CurrentJobError />}
+      />
+      <Route 
+            path=':id'
+            element={<JobDetails />}
+            loader={ jobDetailsLoader }
+            errorElement={<JobError />}
       />
           
     </Route>
@@ -51,7 +61,6 @@ createRoutesFromElements(
       <Route path='questions' element={ <Questions />}/>
       <Route path='contacts' element={ <Contacts /> }/>
     </Route>
-
 
 
     <Route path='*' element={ <Error /> }/>
