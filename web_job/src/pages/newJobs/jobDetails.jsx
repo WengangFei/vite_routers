@@ -8,7 +8,6 @@ export const jobDetailsLoader = async({ params })=>{
     if(!data.ok) {
         throw Error('The page is not found!')
     }
-    console.log('fuck')
     return data.json();
 }
 

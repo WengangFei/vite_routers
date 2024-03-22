@@ -23,6 +23,7 @@ import LayOut from './pages/layOut';
 import JobDetails, { jobDetailsLoader } from './pages/newJobs/jobDetails';
 import JobError from './pages/newJobs/jobError';
 import CurrentJobError from './pages/newJobs/currentJobError';
+import { signinAction } from './pages/signIn';
 
 
 
@@ -36,7 +37,7 @@ createRoutesFromElements(
     <Route index element={ <Home />} />
     <Route path='service' element={ <Service />} />
     <Route path='about' element={ <About />} />
-    <Route path='signIn' element={ <SignIn />} />
+    <Route path='signIn' element={ <SignIn />} action={ signinAction }/>
     <Route path='signUp' element={ <SignUp />} />
 
   
