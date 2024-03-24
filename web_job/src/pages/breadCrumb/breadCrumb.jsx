@@ -17,7 +17,7 @@ function BreadCrumb() {
     });
 
     return (
-        <div className='border-2 border-sky-500 p-2 rounded-lg w-fit'>
+        <div className={`${crumb.length ? 'border-2 border-sky-500':''} p-2 rounded-lg w-fit`}>
             { crumb }
         </div>
     )

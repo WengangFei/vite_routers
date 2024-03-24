@@ -23,13 +23,11 @@ import LayOut from './pages/layOut';
 import JobDetails, { jobDetailsLoader } from './pages/newJobs/jobDetails';
 import JobError from './pages/newJobs/jobError';
 import CurrentJobError from './pages/newJobs/currentJobError';
-import { signinAction } from './pages/signIn';
+import { signInAction } from './pages/signIn';
+import { signUpAction } from './pages/signUp';
 
 
 
-
-
-        
 
 const router = createBrowserRouter(
 createRoutesFromElements(
@@ -37,8 +35,8 @@ createRoutesFromElements(
     <Route index element={ <Home />} />
     <Route path='service' element={ <Service />} />
     <Route path='about' element={ <About />} />
-    <Route path='signIn' element={ <SignIn />} action={ signinAction }/>
-    <Route path='signUp' element={ <SignUp />} />
+    <Route path='signIn' element={ <SignIn />} action={ signInAction }/>
+    <Route path='signUp' element={ <SignUp />} action={ signUpAction } />
 
   
     <Route path='new_jobs' element={ <JobLayOut />}>
@@ -77,3 +75,19 @@ function App() {
 }
 
 export default App
+
+
+ function promise(){
+  return new Promise((resolve,reject)=>{
+    if(7){
+      resolve('Got it.')
+    }
+    else{
+      reject('Shit!')
+    }
+  });
+}
+
+console.log(new Promise((resolve)=>{
+  return resolve('haha')
+}))
