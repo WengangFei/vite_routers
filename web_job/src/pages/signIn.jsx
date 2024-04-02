@@ -29,7 +29,7 @@ function SignIn() {
   )
 }
 
-export const signInAction = async ({request})=>{
+export const signinAction = async ({request})=>{
 
   let data = await request.formData();
   let submission = {
