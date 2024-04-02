@@ -23,8 +23,8 @@ import LayOut from './pages/layOut';
 import JobDetails, { jobDetailsLoader } from './pages/newJobs/jobDetails';
 import JobError from './pages/newJobs/jobError';
 import CurrentJobError from './pages/newJobs/currentJobError';
-import { signInAction } from './pages/signIn';
 import { signUpAction } from './pages/signUp';
+import { signInAction } from './pages/signIn';
 
 
 
@@ -76,18 +76,3 @@ function App() {
 
 export default App
 
-
- function promise(){
-  return new Promise((resolve,reject)=>{
-    if(7){
-      resolve('Got it.')
-    }
-    else{
-      reject('Shit!')
-    }
-  });
-}
-
-console.log(new Promise((resolve)=>{
-  return resolve('haha')
-}))

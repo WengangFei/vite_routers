@@ -7,7 +7,6 @@ function SignUp() {
   let succeed = false;
   if(submitError === 'succeed') succeed = true;
   
-  console.log('--' + submitError)
   return (
     <div className='grid grid-cols-1 place-items-center'>
         <h1 className='text-4xl font-bold m-4'>Sign-Up</h1>

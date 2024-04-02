@@ -29,14 +29,14 @@ function SignIn() {
   )
 }
 
-export const signinAction = async ({request})=>{
+export const signInAction = async ({request})=>{
 
   let data = await request.formData();
   let submission = {
     email: data.get('email'),
     password: data.get('password')
   }
-
+console.log(submission)
   return redirect('/');
 }
 export default SignIn
