@@ -76,3 +76,9 @@ function App() {
 
 export default App
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 00bff4c (added)
