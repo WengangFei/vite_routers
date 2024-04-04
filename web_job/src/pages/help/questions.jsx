@@ -1,24 +1,73 @@
-
+import { useForm, useFieldArray } from 'react-hook-form';
 
 function Questions() {
+
+  const { register, handleSubmit, control, formState:{ errors }}
+  = useForm({
+    // defaultValues: {}; you can populate the fields by this attribute 
+    defaultValues:{
+      questions:[{ question:'' }],// useFieldArray is an object array.
+    }
+  });
+
+  const { fields, append, remove } = useFieldArray({//return a fields objects of an array,each 
+    // object is represent a field.
+    name:'questions',//unique name for the Field Array.
+    control,
+  });
+
+  let questionNumber = 0;
+
   return (
-    <div>
-      <p className="text-xl font-bold my-4">1. Electric cars are better for the environment. </p>
+  <div>
+    <p className='font-bold my-6 text-lg'>
+      Please write down your question(s)  in below box(es):
+    </p>
+    <form onSubmit={handleSubmit(data => console.log(data))}>
       <div>
-      One of the main advantages of electric vehicles might seem obvious, but it’s far too important to overlook: the environmental benefits. Electric cars produce significantly fewer emissions than gas-powered cars—not just while in use, but also throughout the entire lifecycle of the vehicle. This makes EVs a powerful tool in the fight against climate change, which is more important than ever. Plus, with no tailpipe emissions, electric cars can also help reduce air pollution, especially for the most vulnerable communities who are disproportionately harmed by transportation emissions and air pollutants.
+        {
+          fields.map((field,index)=>{
+            return (// field is an object, each field will be rendered as form control.
+              //field.id react specified.
+              <div key={field.id}>
+                <label className='text-xs'>Question {++questionNumber}:</label><br />
+                <input className='border-2 border-blue-300 rounded-md'
+                type='text' {...register(`questions.${index}.question`,{
+                  required:{
+                    value:true,
+                    message:'Can not be empty.'
+                  }
+                })}
+                />
+                {
+                  index > 0 && (
+                    <button type='button' className='text-xs bg-orange-300 p-1 rounded mx-2 my-2 text-white'
+                    onClick={()=> remove(index)}>
+                      Delete 
+                    </button>
+                  )
+                }
+                <p className='text-red-500 text-sm'>{ errors.questions?.[index]?.question?.message }</p><br />
+              </div>
+            )
+          })
+        }
+        <button type='button' className='text-xs bg-blue-300 p-1 rounded my-2 text-white'
+        // add one input field by click the button.
+        // add an object into the object array name 'fields'.
+         onClick={()=>append({ questions:'' })}>
+          Add more Questions
+        </button>
       </div>
 
-      <p className="text-xl font-bold my-4">2. Electric cars are just as safe—if not safer. </p>
-      <div>
-      Research has increasingly shown that electric vehicles are at least as safe as gasoline- and diesel-powered cars. In fact, the president of the Insurance Institute for Highway Safety (IIHS) stated that “we can now say with confidence that making the U.S. fleet more environmentally friendly doesn’t require any compromises in terms of safety.” Several EVs were awarded the 2023 IIHS Top Safety Pick+, including the Audi Q4 e-tron, Subaru Solterra, and Volkswagen ID.4, so drivers who care about both safety and the environment have a variety of great options to choose from.
-      </div>
-      <p className="text-xl font-bold my-4">3. EVs are cheaper and easier to maintain than gas-powered cars. </p>
-      <div>
-      With fewer parts, no internal combustion engine, no oil, less brake wear, and parts that require little to no regular maintenance, electric cars have lower repair and maintenance costs than their gas-powered counterparts—for an average of $4,600 of savings over the lifetime of the car compared to gas-powered vehicles! Fewer maintenance costs and requirements can save EV drivers lots of time, money, and headaches.
-       </div>  
-    </div>
+      <button type='submit' className='bg-red-300 p-1 rounded-md'>
+        Submit
+      </button>
+    </form>
 
-  )
+  </div>
+  );
 }
+
 
 export default Questions
