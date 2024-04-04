@@ -12,44 +12,44 @@ function SignUp() {
         <h1 className='text-4xl font-bold m-4'>Sign-Up</h1>
         <h3 className='text-2xl font-bold m-4'>Enter your login credentials</h3>
         <Form method='post' action="/signUp" className='border-2 rounded-lg p-4 shadow-xl m-6'>
-          <label>First Name:</label>
+          <label>First Name:</label><br />
             <input
                 type="text"
                 name="first"
                 required
-                className='border-2 p-1 rounded-lg m-2'
+                className='border-2 p-1 rounded-lg my-1'
             /><br />
  
-          <label>Last Name:</label>
+          <label>Last Name:</label><br />
           <input
               type="text"
               name="last"
               required
-              className='border-2 p-1 rounded-lg m-2'
+              className='border-2 p-1 rounded-lg my-1'
           /><br />
  
-          <label>Email:</label>
+          <label>Email:</label><br />
           <input
               type="email"
               name="email"
               required
-              className='border-2 p-1 rounded-lg m-2'
+              className='border-2 p-1 rounded-lg my-1'
           /><br />
  
-          <label>Password:</label>
+          <label>Password:</label><br />
           <input
               type="password"
               name="password"
               required
-              className='border-2 p-1 rounded-lg m-2'
+              className='border-2 p-1 rounded-lg my-1'
           /><br />
  
-          <label>Re-type Password:</label>
+          <label>Re-type Password:</label><br />
           <input
               type="password"
               name="repassword"
               required
-              className='border-2 p-1 rounded-lg m-2'
+              className='border-2 p-1 rounded-lg my-1'
           /><br />
           <button type="submit" className='w-fit bg-red-300 rounded-lg p-2 ml-40 m-4 text-sm'>
             Submit

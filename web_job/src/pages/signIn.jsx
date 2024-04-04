@@ -7,14 +7,14 @@ function SignIn() {
       <div className='text-2xl text-red-400 m-8'>
         Please Sign In Your Account
       </div>
-      <Form method='post' action='/signIn' className='border-2 w-fit leading-3xl rounded-3xl p-2 '>
+      <Form method='post' action='/signIn' className='border-2 w-fit leading-3xl rounded-3xl p-8 '>
         <label>
-          <span>Email:</span>
-          <input name='email' className='border-2 p-1 rounded-lg m-2' required/>
+          <span className='p-5'>Email:</span><br />
+          <input name='email' className='border-2 p-1 rounded-lg m-8' required/>
         </label><br />
         <label>
-          <span>PassWord:</span>
-          <input name='password' className='border-2 p-1 rounded-lg m-2' required/>
+          <span className='p-5'>PassWord:</span><br />
+          <input name='password' className='border-2 p-1 rounded-lg m-8' required/>
         </label><br />
         <button className='w-fit bg-red-300 rounded-lg p-2 m-5 text-sm ml-64'>Log In</button>
         
