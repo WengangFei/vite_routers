@@ -4,10 +4,7 @@ import { DevTool } from '@hookform/devtools';
 
 function Contacts() {
 
-  // type help = {
-  //   email: String,
-  //   description: String,
-  // }
+// register: (name: string, RegisterOptions?) => ({ onChange, onBlur, name, ref })
 
   // errors show the error msg on the client side.
 const { register, 
@@ -23,6 +20,7 @@ const { register,
   defaultValues: async ()=>{
     let resp = await fetch('https://jsonplaceholder.typicode.com/users/1');
     let data = await resp.json();
+    console.log(data)
     return {
       name: data.name,
       email: data.email,
@@ -68,7 +66,7 @@ let onSubmit = (data)=>{
 
         <label>
           <span>Email:</span><br />
-          <input className='input-border' {...register('email',{
+          <input name='email' className='input-border' {...register('email',{
             pattern:{
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               message:' email is invalid.'
@@ -80,22 +78,27 @@ let onSubmit = (data)=>{
             //customize the validation, automatically receiving field value.
             // validate object for multiple rules.
             validate:{
-              notAdmin: (fieldValue)=>
-              fieldValue !== 'wengangfei@gmail.com' || 
-              'Enter another email address.'
+              notAdmin: (fieldValue)=>{
+                return (
+                  fieldValue !== 'wengangfei@gmail.com' || 
+                  'Enter another email address.'
+                )
+              },
+              notGmail: (fieldValue)=>{
+                return (
+                   fieldValue.endsWith('gmail.com') ||
+                  'Only accept the Gmail address.'
+                )
+              }
             },
-            notGmail: (fieldValue)=>
-              !fieldValue.endsWith('gmail.com') ||
-              'Not accept the Gmail address.'
-            
-          })} placeholder='Your email'/>
+          })}/>
           <p className='text-red-500 text-sm'>{ errors.email?.message}</p>
           {/* <p>{ watch('email') }</p> */}
         </label>
 
         <label>
           <span>Questions:</span><br />
-          <input className='input-border' {...register('description',{
+          <input name='description' className='input-border' {...register('description',{
             required: 'Please put in your questions.'
           })} placeholder='Your questions'/>
           <p className='text-red-500 text-sm'>{ errors.description?.message}</p>
