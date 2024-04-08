@@ -24,6 +24,7 @@ import JobError from './pages/newJobs/jobError';
 import CurrentJobError from './pages/newJobs/currentJobError';
 import { signUpAction } from './pages/signUp';
 import { signInAction } from './pages/signIn';
+import { useEffect, useState } from 'react';
 
 
 
@@ -66,10 +67,26 @@ createRoutesFromElements(
   )
 );
 
+
 function App() {
 
-  return (
-    <RouterProvider router={router} />
+  console.log(1)
+  useEffect(()=>{
+    // const getData = async ()=>{
+    //   let resp = await fetch('https://jsonplaceholder.typicode.com/users/1');
+    //   let data = await resp.json();
+    //   setData(data);
+    // }
+    // getData();
+    console.log(2)
+  },[]);
+console.log(3)
+    return (
+      <>
+        <RouterProvider router={router} />
+
+      </>
+      
   )
 }
 
