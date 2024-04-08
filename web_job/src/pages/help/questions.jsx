@@ -60,7 +60,7 @@ function Questions() {
         </button>
       </div>
 
-      <button type='submit' className='bg-red-300 p-1 rounded-md'>
+      <button type='submit' className='bg-red-300 p-1 text-xs text-white rounded-md'>
         Submit
       </button>
     </form>

@@ -5,7 +5,7 @@ import { useLoaderData, Link } from "react-router-dom";
 
 
 export const jobLoader = async () =>{
-  let data = await fetch('http://localhost:4000/careers');
+  let data = await fetch('http://localhost:3000/careers');
   if(!data.ok){
     throw Error('The current jobs are not loading,come back check later!');
   }

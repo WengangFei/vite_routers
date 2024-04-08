@@ -11,7 +11,7 @@ function SignUp() {
     <div className='grid grid-cols-1 place-items-center'>
         <h1 className='text-4xl font-bold m-4'>Sign-Up</h1>
         <h3 className='text-2xl font-bold m-4'>Enter your login credentials</h3>
-        <Form method='post' action="/signUp" className='border-2 rounded-lg p-4 shadow-xl m-6'>
+        <Form method='post' action="/signUp" className='border-2 rounded-lg p-4 shadow-xl m-6 items-center'>
           <label>First Name:</label><br />
             <input
                 type="text"
@@ -51,19 +51,19 @@ function SignUp() {
               required
               className='border-2 p-1 rounded-lg my-1'
           /><br />
-          <button type="submit" className='w-fit bg-red-300 rounded-lg p-2 ml-40 m-4 text-sm'>
+          <button type="submit" className='w-fit bg-red-300 rounded-lg p-2 ml-24 m-4 text-sm'>
             Submit
           </button>
           
-        <div className={ `text-red-400 ${submitError ? 'p-6' : ''} ` }>
+        <div className={ `text-red-400 ${submitError ? 'p-0' : ''} ` }>
           { submitError && submitError.error }
         </div>
 
           { 
             succeed && 
           <div>
-             You are registered.
-             <Link to='/' className='underline text-blue-400 text-xl mx-4'>Click Here</Link>
+             You are registered.<br />
+             <Link to='/' className='underline text-blue-400 text-xl mx-4'>Click Here</Link><br />
              return to home page.
           </div>
           

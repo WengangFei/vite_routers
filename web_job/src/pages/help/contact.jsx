@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
+import { useState } from 'react';
 
 
 function Contacts() {
@@ -11,7 +12,10 @@ const { register,
         handleSubmit, 
         control, 
         formState:{ errors },
-        watch,
+        watch,//watch each field's input, what multiple fields
+        // use array form, watch(['name','password'...])
+        getValues,
+        setValue,
       
       } = useForm({
 // default values object is a shape of the form. Each object key register the key name
@@ -20,27 +24,35 @@ const { register,
   defaultValues: async ()=>{
     let resp = await fetch('https://jsonplaceholder.typicode.com/users/1');
     let data = await resp.json();
-    console.log(data)
+    // console.log(data)
     return {
       name: data.name,
       email: data.email,
       description: 'None',
       social:{
-        twitter:'twitter',
-        facebook:'facebook'
+        twitter:'',
+        facebook:''
       },
-      phoneNumbers:['','']
+      phoneNumbers:['',''],
+      age:'',
+      dob:'',
     }
   }
 });
 
-console.log(errors.phoneNumbers)
+//to display all input values on page.
+const[getAllInputValues,setGetAllInputValues] = useState(false)
+
+// watch object
+// let watchInput = watch();
+
 
 // const { name, ref, onChange, onBlur } = register('name');
 
 // form submit
 let onSubmit = (data)=>{
   console.log(data)
+
 }
 
   return (
@@ -51,7 +63,7 @@ let onSubmit = (data)=>{
     
       </p>
 
-      <form onSubmit={ handleSubmit(onSubmit)} noValidate className='items-center flex flex-col'>
+      <form onSubmit={ handleSubmit(onSubmit)} noValidate className='py-6'>
       <label>
           <span>Name:</span><br />
           <input className='input-border' {...register('name',{
@@ -61,7 +73,7 @@ let onSubmit = (data)=>{
             }
           })} placeholder='Your name'/>
           <p className='text-red-500 text-sm'>{ errors.name?.message}</p>
-          {/* <p>{ watch('name') }</p> */}
+          {/* <p>{ watchInput.name }</p> */}
         </label>
 
         <label>
@@ -86,14 +98,15 @@ let onSubmit = (data)=>{
               },
               notGmail: (fieldValue)=>{
                 return (
-                   fieldValue.endsWith('gmail.com') ||
+                  //email restriction.
+                   fieldValue.endsWith('') ||
                   'Only accept the Gmail address.'
                 )
               }
             },
           })}/>
           <p className='text-red-500 text-sm'>{ errors.email?.message}</p>
-          {/* <p>{ watch('email') }</p> */}
+          {/* <p>{ watchInput.email }</p> */}
         </label>
 
         <label>
@@ -127,6 +140,7 @@ let onSubmit = (data)=>{
           })} placeholder='Your primary phone number.'/>
           <p className='text-red-500 text-sm'>{ errors.phoneNumbers?.[0]?.message}</p>
         </label>
+          {/* <p>{ watch('phoneNumbers.0') }</p> */}
 
         <label>
           <span>Secondary Phone Number:</span><br />
@@ -135,8 +149,66 @@ let onSubmit = (data)=>{
           })} placeholder='Your secondary phon number.'/>
           <p className='text-red-500 text-sm'>{ errors.phoneNumbers?.[1]?.message}</p>
         </label>
+        {/* <p>{ watch('phoneNumbers.1') }</p> */}
+
+        <label>
+          <span>Age:</span><br />
+          <input className='input-border' {...register('age',{
+            valueAsNumber: true,
+            required: 'Please enter your age.'
+          })} placeholder='Your age.' type='text'/>
+          <p className='text-red-500 text-sm'>{ errors.age?.message}</p>
+        </label>
+
+        <label>
+          <span>Date of birth:</span><br />
+          <input className='input-border' {...register('dob',{
+            valueAsDate: true,
+            required: 'Please enter your dob.'
+          })} placeholder='Your dob.' type='date'/>
+          <p className='text-red-500 text-sm'>{ errors.dob?.message}</p>
+        </label>
+
+
         <button className='submit-button'>Submit</button>
+        <button className='submit-button ml-8' onClick={()=>{
+          let getAllFieldsnamesArray = Object.keys(getValues());
+          getAllFieldsnamesArray.forEach(item=>{
+            // console.log(getValues()[item])
+            if(getValues()[item].constructor.name === 'Object'){
+              // console.log(getValues()[item])
+              Object.keys(getValues()[item]).forEach(subitem=>{
+                // console.log(subitem)
+                console.log(getValues()[item])
+                console.log(subitem + '---')
+                setValue(subitem,'')
+              });
+            }
+            
+            
+            // setValue(item,'')
+          });
+        }}>
+          Reset All Inputs
+        </button>
       </form>
+      <button type='button' className='submit-button' onClick={()=>{
+        setGetAllInputValues(true);
+        // console.log(getValues())
+      }}>
+        Show All Inputs
+      </button>
+      { getAllInputValues && 
+        <div>
+          { Object.entries(getValues()).map(item=>{
+            return(
+              <div key={item[0]}>
+                { item[0] } : { JSON.stringify(item[1]) }
+              </div>
+            )
+          }) }
+        </div>
+      }
       <DevTool control={ control }/>
 
     </div>

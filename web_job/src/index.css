@@ -7,12 +7,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    span {
+        @apply text-blue-600 text-xs font-bold
+    }
+}
+
 @layer utilities {
     .input-border{
         @apply border-2 p-1 rounded-lg m-1
     }
 
     .submit-button {
-        @apply w-fit bg-red-300 rounded-lg p-2 m-5 text-sm ml-64 mr-64
+        @apply w-fit bg-red-300 rounded-lg p-2 my-5 text-sm 
     }
 }
