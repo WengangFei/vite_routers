@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 function Contacts() {
@@ -11,12 +11,13 @@ function Contacts() {
 const { register, 
         handleSubmit, 
         control, 
-        formState:{ errors },
+        formState:{ errors, isDirty, isValid, dirtyFields, isSubmitting, 
+           isSubmitted, isSubmitSuccessful },
         watch,//watch each field's input, what multiple fields
         // use array form, watch(['name','password'...])
         getValues,
         setValue,
-      
+        reset,
       } = useForm({
 // default values object is a shape of the form. Each object key register the key name
 // into each HTML form input field as the input field name by register function.
@@ -26,9 +27,9 @@ const { register,
     let data = await resp.json();
     // console.log(data)
     return {
-      name: data.name,
-      email: data.email,
-      description: 'None',
+      name: '',
+      email: '',
+      description: '',
       social:{
         twitter:'',
         facebook:''
@@ -37,12 +38,23 @@ const { register,
       age:'',
       dob:'',
     }
-  }
+  },
+// fields validation mode
+  mode: 'all'
 });
+// useEffect to reset all fields value to default after submit form successfully.
+useEffect(()=>{
+  if(isSubmitSuccessful){
+    reset();
+  }
+},[isSubmitSuccessful,reset]);
+
+
+console.log({isSubmitting, isSubmitted, isSubmitSuccessful, isValid, isDirty})
 
 //to display all input values on page.
 const[getAllInputValues,setGetAllInputValues] = useState(false)
-
+// Shows all errors when submit the form if there are any
 const onError = (errors)=>{
   console.log(errors)
 }
@@ -50,7 +62,7 @@ const onError = (errors)=>{
 // let watchInput = watch();
 
 // const { name, ref, onChange, onBlur } = register('name');
-
+console.log(errors)
 // form submit
 let onSubmit = (data)=>{
   console.log(data)
@@ -94,7 +106,7 @@ let onSubmit = (data)=>{
             validate:{
               notAdmin: (fieldValue)=>{
                 return (
-                  fieldValue !== 'wengangfei@gmail.com' || 
+                  fieldValue !== 'wengangfei@gmail.co' || 
                   'Enter another email address.'
                 )
               },
@@ -103,6 +115,14 @@ let onSubmit = (data)=>{
                   //email restriction.
                    fieldValue.endsWith('') ||
                   'Only accept the Gmail address.'
+                )
+              },
+              emailAvailable: async (fieldValue)=>{
+                let resp = await fetch(`https://jsonplaceholder.typicode.com/users?email=${fieldValue}`);
+                let databaseEmail = await resp.json();
+                return (
+                  databaseEmail.length === 0 || 
+                  'This account already exist.'
                 )
               }
             },
@@ -130,27 +150,36 @@ let onSubmit = (data)=>{
         <label>
           <span>Twitter:</span><br />
           <input className='input-border' {...register('social.twitter',{
-            required: 'Please twitter name.'
+            required: {
+              value: true,
+              message:'Facebook required.'
+            },
+            // validate: {
+            //   twitterAccountAvailable: async (fieldValue)=>{
+            //     let resp = await fetch(`https://jsonplaceholder.typicode.com/users?${fieldValue}`);
+            //     let databaseTwitterAccount = await resp.json();
+            //     console.log('Twitter' + databaseTwitterAccount)
+            //     return (
+            //       databaseTwitterAccount.length === 0 || 
+            //       'This twitter account already exist.'
+            //     )
+            //   }
+            // }
+
           })} placeholder='Your twitter name'/>
           <p className='text-red-500 text-sm'>{ errors.social?.twitter?.message}</p>
         </label>
 
         <label>
           <span>Primary Number:</span><br />
-          <input className='input-border' {...register('phoneNumbers.0',{
-            // required: 'Enter your primary phone number.'
-          })} placeholder='Your primary phone number.'/>
+          <input className='input-border' {...register('phoneNumbers.0')} placeholder='Your primary phone number.'/>
           <p className='text-red-500 text-sm'>{ errors.phoneNumbers?.[0]?.message}</p>
         </label>
           {/* <p>{ watch('phoneNumbers.0') }</p> */}
 
         <label>
           <span>Secondary Phone Number:</span><br />
-          <input className='input-border' {...register('phoneNumbers.1',{
-            // required: 'Please enter your secondary phone number.',
-            // disabled: watch('phoneNumbers.0') === '',
-            
-          })} placeholder='Your secondary phon number.'/>
+          <input className='input-border' {...register('phoneNumbers.1')} placeholder='Your secondary phon number.'/>
           <p className='text-red-500 text-sm'>{ errors.phoneNumbers?.[1]?.message}</p>
         </label>
         {/* <p>{ watch('phoneNumbers.1') }</p> */}
@@ -174,7 +203,7 @@ let onSubmit = (data)=>{
         </label>
 
 
-        <button className='submit-button'>Submit</button>
+        <button className='submit-button' disabled={!isDirty || !isValid}>Submit</button>
         <button className='submit-button ml-8' onClick={()=>{
           let getAllFieldsnamesArray = Object.keys(getValues());
           getAllFieldsnamesArray.forEach(item=>{
@@ -190,18 +219,19 @@ let onSubmit = (data)=>{
                 setValue((item+'.'+i),'');
               }
             }
-
             setValue(item,'')
           });
         }}>
           Reset All Inputs
+        </button><br />
+        <button className='submit-button' onClick={()=>reset()}>Reset</button>
+        <button type='button' className='submit-button ml-8' onClick={()=>{
+          setGetAllInputValues(true);
+        }}>
+          Show All Inputs
         </button>
       </form>
-      <button type='button' className='submit-button' onClick={()=>{
-        setGetAllInputValues(true);
-      }}>
-        Show All Inputs
-      </button>
+     
       { getAllInputValues && 
         <div>
           { Object.entries(getValues()).map(item=>{
