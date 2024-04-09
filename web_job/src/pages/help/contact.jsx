@@ -43,9 +43,11 @@ const { register,
 //to display all input values on page.
 const[getAllInputValues,setGetAllInputValues] = useState(false)
 
+const onError = (errors)=>{
+  console.log(errors)
+}
 // watch object
 // let watchInput = watch();
-
 
 // const { name, ref, onChange, onBlur } = register('name');
 
@@ -63,7 +65,7 @@ let onSubmit = (data)=>{
     
       </p>
 
-      <form onSubmit={ handleSubmit(onSubmit)} noValidate className='py-6'>
+      <form onSubmit={ handleSubmit(onSubmit,onError)} noValidate className='py-6'>
       <label>
           <span>Name:</span><br />
           <input className='input-border' {...register('name',{
@@ -136,7 +138,7 @@ let onSubmit = (data)=>{
         <label>
           <span>Primary Number:</span><br />
           <input className='input-border' {...register('phoneNumbers.0',{
-            required: 'Enter your primary phone number.'
+            // required: 'Enter your primary phone number.'
           })} placeholder='Your primary phone number.'/>
           <p className='text-red-500 text-sm'>{ errors.phoneNumbers?.[0]?.message}</p>
         </label>
@@ -145,7 +147,9 @@ let onSubmit = (data)=>{
         <label>
           <span>Secondary Phone Number:</span><br />
           <input className='input-border' {...register('phoneNumbers.1',{
-            required: 'Please enter your secondary phone number.'
+            // required: 'Please enter your secondary phone number.',
+            // disabled: watch('phoneNumbers.0') === '',
+            
           })} placeholder='Your secondary phon number.'/>
           <p className='text-red-500 text-sm'>{ errors.phoneNumbers?.[1]?.message}</p>
         </label>
@@ -155,7 +159,7 @@ let onSubmit = (data)=>{
           <span>Age:</span><br />
           <input className='input-border' {...register('age',{
             valueAsNumber: true,
-            required: 'Please enter your age.'
+            // required: 'Please enter your age.'
           })} placeholder='Your age.' type='text'/>
           <p className='text-red-500 text-sm'>{ errors.age?.message}</p>
         </label>
@@ -174,19 +178,20 @@ let onSubmit = (data)=>{
         <button className='submit-button ml-8' onClick={()=>{
           let getAllFieldsnamesArray = Object.keys(getValues());
           getAllFieldsnamesArray.forEach(item=>{
-            // console.log(getValues()[item])
+      
             if(getValues()[item].constructor.name === 'Object'){
-              // console.log(getValues()[item])
-              Object.keys(getValues()[item]).forEach(subitem=>{
-                // console.log(subitem)
-                console.log(getValues()[item])
-                console.log(subitem + '---')
-                setValue(subitem,'')
-              });
+              for(const i in getValues()[item]){
+                setValue((item+'.'+i),'');
+              }
             }
             
-            
-            // setValue(item,'')
+            if(getValues()[item].constructor.name === 'Array'){
+              for(const i in getValues()[item]){
+                setValue((item+'.'+i),'');
+              }
+            }
+
+            setValue(item,'')
           });
         }}>
           Reset All Inputs
@@ -194,7 +199,6 @@ let onSubmit = (data)=>{
       </form>
       <button type='button' className='submit-button' onClick={()=>{
         setGetAllInputValues(true);
-        // console.log(getValues())
       }}>
         Show All Inputs
       </button>
